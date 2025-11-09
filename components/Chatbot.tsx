@@ -41,14 +41,13 @@ const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
             }
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             
+            // FIX: Refactored to align with Gemini API guidelines.
+            // Instructions are moved to systemInstruction, and the user's raw input is passed as contents.
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
-                contents: [{ 
-                    role: "user", 
-                    parts: [{text: `Responde como un profesor experto en geografía de Chile para un estudiante de primaria. Sé breve y claro. Mi pregunta es: ${input}`}] 
-                }],
+                contents: input,
                 config: {
-                    systemInstruction: 'Eres un chatbot amigable y educativo llamado "Profe Heródoto". Tu especialidad es el desarrollo regional de Chile, y estás ayudando a un estudiante de primaria. Usa un lenguaje sencillo y ejemplos claros.',
+                    systemInstruction: 'Eres un chatbot amigable y educativo llamado "Profe Heródoto". Tu especialidad es el desarrollo regional de Chile. Estás ayudando a un estudiante de primaria. Responde como un profesor experto en geografía de Chile. Sé breve, claro, y usa un lenguaje sencillo con ejemplos claros.',
                 }
             });
 
